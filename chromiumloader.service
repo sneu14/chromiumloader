@@ -4,7 +4,6 @@ Description="Chromiumloader"
 [Service]
 WorkingDirectory=/home/kiosk-user/chromium-reload
 ExecStart="/home/kiosk-user/chromium-reload/start.sh"
-User=kiosk-user
 Restart=always
 
 [Install]
