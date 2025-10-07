@@ -2,9 +2,9 @@
 Description="Chromiumloader"
 
 [Service]
-WorkingDirectory=/home/kiosk-user/chromium-reload
-ExecStart="/home/kiosk-user/chromium-reload/start.sh"
+WorkingDirectory=/home/kiosk-user/chromiumloader
+ExecStart="/home/kiosk-user/chromiumloader/start.sh"
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
