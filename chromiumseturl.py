@@ -19,7 +19,7 @@ class URLSetter:
         
         self.instance = 0
         self.debugger_port = 9222
-        self.mqtt_prefix = "chromium"
+        self.mqtt_prefix = "chromium/"
         
         self.instancestate_topic = "/___HOSTNAME___/___INSTANCE___/state/instance"
         self.instanceurl_topic = "/___HOSTNAME___/___INSTANCE___/state/url"
@@ -84,9 +84,9 @@ class URLSetter:
             t = self._replaceVars(self.mqtt_prefix + x, self.instance)
             try:
                 client.subscribe(t)
-                logger.info("Subscription to to topic: " + t + " successful")
+                logger.info("Subscription to topic: " + t + " successful")
             except:
-                logger.error("Subscription to to topic: " + t + " failed")
+                logger.error("Subscription to topic: " + t + " failed")
             
     def on_message(self, client, userdata, msg, properties=None):
         topic = msg.topic
@@ -133,13 +133,13 @@ class URLSetter:
             print(f"Failed to connect to Chromium: {e}")
             
     def _setDefaultTopics(self):
-        self.instancestate_topic = "chromium/___HOSTNAME___/___INSTANCE___/state/instance"
-        self.urlstate_topic = "chromium/___HOSTNAME___/___INSTANCE___/state/url"
+        self.instancestate_topic = "___HOSTNAME___/___INSTANCE___/state/instance"
+        self.urlstate_topic = "___HOSTNAME___/___INSTANCE___/state/url"
         self.url_topics = [
-             "chromium/___HOSTNAME___/___INSTANCE___/url",
-            "chromium/all/___INSTANCE___/url",
-            "chromium/___HOSTNAME___/all/url",
-            "chromium/all/all/url"
+             "___HOSTNAME___/___INSTANCE___/url",
+            "all/___INSTANCE___/url",
+            "___HOSTNAME___/all/url",
+            "all/all/url"
             ]
             
     def _replaceVars(self, value, mvalue):
@@ -172,12 +172,12 @@ if __name__ == "__main__":
         try:
             urlsetter.mqtt_user_pw_set(config['Connection']['Username'], config['Connection']['Password'])
         except:
-            logger.info("Keine Zugangsdaten für MQTT-Broker gesetzt")
+            logger.info("Connect without Username/Password")
             
         try:
             urlsetter.mqtt_setport(config['Connection']['Port'])
         except:
-            logger.info("Verwende 1833 als MQTT-Port")
+            logger.info("Using port 1833 for MQTT Connection")
             
         t = "0"
         try:
@@ -198,14 +198,14 @@ if __name__ == "__main__":
             t = config['Instance-Topics']['State']
             urlsetter.setInstanceStateTopic(str(t))
         except:
-            logger.info("Topic für Instanz Status: " + str(t))
+            logger.info("Unable to read Instance State Topic from config. Using default")
         
         t = ""
         try:
             t = config['Instance-Topics']['URL']
             urlsetter.setURLStateTopic(t)
         except:
-            logger.info("Topic für URL Status: " + t)
+            logger.info("Unable to read URL State Topic from config. Using default")
             
         section = "URL-Topics"
         if config.has_section(section):
