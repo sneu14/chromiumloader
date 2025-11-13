@@ -3,7 +3,7 @@ Description="Chromiumloader"
 
 [Service]
 WorkingDirectory=/home/kiosk-user/chromiumloader
-ExecStart="/home/kiosk-user/chromiumloader/start.sh"
+ExecStart="/home/kiosk-user/chromiumloader/start.sh %i"
 Restart=always
 
 [Install]
